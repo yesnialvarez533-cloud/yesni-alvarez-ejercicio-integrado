@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Produccion</title>
+
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(210, 230, 250);
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        h1{
+            color: #003366;
+        }
+
+        .resumen{
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 10px;
+            width: 40%;
+            min-width: 300px;
+            margin: 25px auto;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .resumen h2{
+            text-align: center;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            border-bottom: 2px solid black;
+            padding-bottom: 5px;
+        }
+
+        .Bajo-rendimiento { color: red; font-weight: bold; }
+        .Rendimiento-aceptable { color: orange; font-weight: bold; }
+        .Rendimiento-excelente { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Control de Producción</h1>
+    
+    <br>
+    <script>
+        let nombre = prompt("Ingrese el nombre del operario:");
+        let tipo = parseInt(prompt("Ingrese el tipo de producto (1: Engranaje, 2: Eje metálico, 3: Pistón):"));
+        let costoUnitario;
+        let producto;
+
+        // switch para asignar costo unitario
+        switch(tipo){
+            case 1:
+                costoUnitario = 5000;
+                producto = "Engranaje";
+                break;
+            case 2:
+                costoUnitario = 7000;
+                producto = "Eje metálico";
+                break;
+            case 3:
+                costoUnitario = 10000;
+                producto = "Pistón";
+                break;
+            default:
+                document.write("Tipo de producto no válido");
+                break;
+        }
+
+        //while para registrar producción diaria
+        let piezasPorDia = [];
+        let continuar = "s";
+        let totalPiezas = 0;
+        let dia = 1;
+
+        while (continuar.toLowerCase() === "s") {
+            let piezas = parseInt(prompt("Ingrese la cantidad de piezas producidas en el día " + dia + ":"));
+            piezasPorDia.push(piezas);
+            totalPiezas += piezas;
+            continuar = prompt("¿Desea registrar otro día? (s/n):");
+            dia++;
+        }
+
+        //for para mostrar producción diaria 
+        document.write("<h3>Registro de producción por día</h3>");
+        for (let i = 0; i < piezasPorDia.length; i++) {
+            document.write("Día " + (i + 1) + ": " + piezasPorDia[i] + " piezas<br>");
+        }
+
+        //calculos 
+        let costoTotal = totalPiezas * costoUnitario;
+        let rendimiento = "";
+
+        //if para evaluar rendimiento
+        if (totalPiezas < 50) {
+            rendimiento = "<p class='Bajo-rendimiento'>Bajo rendimiento</p><br>";
+            
+        } else if (totalPiezas <= 100) {
+            rendimiento = "<p class='Rendimiento-aceptable'>Rendimiento aceptable";
+            
+        } else {
+            rendimiento = "<p class='Rendimiento-excelente'>Rendimiento excelente";
+            
+        }
+        
+        //salida del algoritmo
+        document.writeln("<div class='resumen'>");
+        document.writeln("<h2>Resumen de Producción</h2>");
+        document.writeln("<p><b>Operario:</b> " + nombre + "</p>");
+        document.writeln("<p><b>Producto fabricado:</b> " + producto + "</p>");
+        document.writeln("<p><b>Total de piezas producidas:</b> " + totalPiezas + "</p>");
+        document.writeln("<p><b>Costo unitario:</b> $" + costoUnitario + "</p>");
+        document.writeln("<p><b>Costo total de producción:</b> $" + costoTotal + "</p>");
+        document.writeln("<p><b>Rendimiento:</b> " + rendimiento + "</p>");
+        document.writeln("</div>");
+    </script>
+</body>
+</html>
