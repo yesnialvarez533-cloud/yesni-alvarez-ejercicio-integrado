@@ -17,6 +17,24 @@
             color: #003366;
         }
 
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 60%;
+            background-color: white;
+        }
+
+        th, td {
+            border: 2px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #003366;
+            color: white;
+        }
+
         .resumen{
             background-color: white;
             border: 2px solid black;
@@ -50,7 +68,7 @@
         let costoUnitario;
         let producto;
 
-        // switch para asignar costo unitario
+        //switch para asignar costo unitario
         switch(tipo){
             case 1:
                 costoUnitario = 5000;
@@ -69,24 +87,40 @@
                 break;
         }
 
-        //while para registrar producción diaria
         let piezasPorDia = [];
+        let productosPorDia = [];
         let continuar = "s";
         let totalPiezas = 0;
         let dia = 1;
 
+        //while para registrar producción diaria
         while (continuar.toLowerCase() === "s") {
             let piezas = parseInt(prompt("Ingrese la cantidad de piezas producidas en el día " + dia + ":"));
             piezasPorDia.push(piezas);
+            productosPorDia.push(producto);
             totalPiezas += piezas;
             continuar = prompt("¿Desea registrar otro día? (s/n):");
+            if (continuar.toLowerCase() === "s") {
+                tipo = parseInt(prompt("Ingrese el tipo de producto (1: Engranaje, 2: Eje metálico, 3: Pistón):"));
+                switch(tipo){
+                    case 1:
+                        costoUnitario = 5000;
+                        producto = "Engranaje";
+                        break;
+                    case 2:
+                        costoUnitario = 7000;
+                        producto = "Eje metálico";
+                        break;
+                    case 3:
+                        costoUnitario = 10000;
+                        producto = "Pistón";
+                        break;
+                    default:
+                        document.write("Tipo de producto no válido");
+                        break;
+                }
+            }
             dia++;
-        }
-
-        //for para mostrar producción diaria 
-        document.write("<h3>Registro de producción por día</h3>");
-        for (let i = 0; i < piezasPorDia.length; i++) {
-            document.write("Día " + (i + 1) + ": " + piezasPorDia[i] + " piezas<br>");
         }
 
         //calculos 
@@ -95,26 +129,32 @@
 
         //if para evaluar rendimiento
         if (totalPiezas < 50) {
-            rendimiento = "<p class='Bajo-rendimiento'>Bajo rendimiento</p><br>";
-            
+            rendimiento = "<span class='Bajo-rendimiento'>Bajo rendimiento</span>";   
         } else if (totalPiezas <= 100) {
-            rendimiento = "<p class='Rendimiento-aceptable'>Rendimiento aceptable";
-            
+            rendimiento = "<span class='Rendimiento-aceptable'>Rendimiento aceptable</span>";
         } else {
-            rendimiento = "<p class='Rendimiento-excelente'>Rendimiento excelente";
-            
+            rendimiento = "<span class='Rendimiento-excelente'>Rendimiento excelente</span>";  
         }
-        
-        //salida del algoritmo
-        document.writeln("<div class='resumen'>");
-        document.writeln("<h2>Resumen de Producción</h2>");
-        document.writeln("<p><b>Operario:</b> " + nombre + "</p>");
-        document.writeln("<p><b>Producto fabricado:</b> " + producto + "</p>");
-        document.writeln("<p><b>Total de piezas producidas:</b> " + totalPiezas + "</p>");
-        document.writeln("<p><b>Costo unitario:</b> $" + costoUnitario + "</p>");
-        document.writeln("<p><b>Costo total de producción:</b> $" + costoTotal + "</p>");
-        document.writeln("<p><b>Rendimiento:</b> " + rendimiento + "</p>");
-        document.writeln("</div>");
+
+        //tabla 
+        document.write("<h3>Registro de Producción</h3>");
+        document.write("<table>");
+        document.write("<tr><th>Día</th><th>Producto</th><th>Piezas producidas</th></tr>");
+        for (let i = 0; i < piezasPorDia.length; i++) {
+            document.write("<tr>");
+            document.write("<td>" + (i + 1) + "</td>");
+            document.write("<td>" + productosPorDia[i] + "</td>");
+            document.write("<td>" + piezasPorDia[i] + "</td>");
+            document.write("</tr>");
+        }
+
+        document.write("<tr><th colspan='3'>Resumen de Producción</th></tr>");
+        document.write("<tr><td colspan='2'><b>Operario:</b></td><td>" + nombre + "</td></tr>");
+        document.write("<tr><td colspan='2'><b>Total de piezas producidas:</b></td><td>" + totalPiezas + "</td></tr>");
+        document.write("<tr><td colspan='2'><b>Costo unitario:</b></td><td>$" + costoUnitario + "</td></tr>");
+        document.write("<tr><td colspan='2'><b>Costo total de producción:</b></td><td>$" + costoTotal + "</td></tr>");
+        document.write("<tr><td colspan='2'><b>Rendimiento:</b></td><td>" + rendimiento + "</td></tr>");
+        document.write("</table>");
     </script>
 </body>
 </html>
